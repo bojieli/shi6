@@ -1,0 +1,10 @@
+<h1>Welcome to Django</h1>
+{% if latest_poll_list %}
+    <ol>
+    {% for poll in latest_poll_list %}
+        <li>{{poll.question}} <a href="/page/{{poll.id}}/">查看统计</a> <a href="/page/{{poll.id}}/results/">进入投票页</a></li>
+    {% endfor %}
+    </ol>
+{% else %}
+    <p>Not available.</p>
+{% endif %}

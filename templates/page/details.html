@@ -1,0 +1,15 @@
+<h1>Poll: {{poll}}</h1>
+{% if error_message %}
+<h3>Error: {{error_message}}</h3>
+{% endif %}
+<dl>
+    <dt>id</dt>
+    <dd>{{poll.id}}</dd>
+    <dt>发布时间</dd>
+    <dd>{{poll.pub_date}}</dd>
+</dl>
+<ul>
+{% for choice in poll.choice_set.all %}
+    <li>{{choice.choice}} 票数: {{choice.votes}}</li>
+{% endfor %}
+</ul>

@@ -1,0 +1,11 @@
+<h1>{{poll}}</h1>
+<form action="/page/{{poll.id}}/vote/" method="post">
+{% csrf_token %}
+{% for choice in poll.choice_set.all %}
+    <p>
+    <input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{choice.id}}" />
+    <label for="choice{{forloop.counter}}">{{choice.choice}}</label>
+    </p>
+{% endfor %}
+    <input type="submit" value="Vote Now" />
+</form>
