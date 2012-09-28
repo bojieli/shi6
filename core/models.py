@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 import utils
 
-@utils.add_admin
+@utils.addAdmin
 class School(models.Model):
     name        = models.CharField(max_length=200, db_index=True)
     SCHOOL_TYPES = (
@@ -17,11 +17,11 @@ class School(models.Model):
     type        = models.CharField(max_length=2, choices=SCHOOL_TYPES, db_index=True)
     city        = models.CharField(max_length=100, db_index=True)
 
-@utils.add_admin
+@utils.addAdmin
 class GroupCategory(models.Model):
     name        = models.CharField(max_length=200)
 
-@utils.add_admin
+@utils.addAdmin
 class Group(models.Model):
     name        = models.CharField(max_length=200)
     school      = models.ForeignKey(School, null=True, blank=True)
@@ -33,12 +33,12 @@ class Group(models.Model):
     delete_time = models.DateField()
     members     = models.ManyToManyField(User, through='Membership', related_name='group_joined')
 
-@utils.add_admin
+@utils.addAdmin
 class GroupTag(models.Model):
     group       = models.ForeignKey(Group)
     tag         = models.CharField(max_length=200, db_index=True)
 
-@utils.add_admin
+@utils.addAdmin
 class File(models.Model):
     author      = models.ForeignKey(User)
     create_time = models.DateField(db_index=True)
@@ -49,20 +49,20 @@ class File(models.Model):
     isdeleted   = models.BooleanField(default=False)
     delete_time = models.DateField()
 
-@utils.add_admin
+@utils.addAdmin
 class FileList(models.Model):
     pass
 
-@utils.add_admin
+@utils.addAdmin
 class Image(models.Model):
     original_image = models.OneToOneField(File)
 
-@utils.add_admin
+@utils.addAdmin
 class Thumb(models.Model):
     image = models.ForeignKey(Image)
     file  = models.OneToOneField(File)
 
-@utils.add_admin
+@utils.addAdmin
 class GroupProfile(models.Model):
     group       = models.OneToOneField(Group)
     name_en     = models.CharField(max_length=200)
@@ -72,7 +72,7 @@ class GroupProfile(models.Model):
     summary     = models.TextField()
     description = models.TextField()
 
-@utils.add_admin
+@utils.addAdmin
 class Membership(models.Model):
     group       = models.ForeignKey(Group)
     user        = models.ForeignKey(User)
@@ -85,7 +85,7 @@ class Membership(models.Model):
     privilege   = models.IntegerField(choices=PRIVILEGE_CHOICES, db_index=True)
     title       = models.CharField(max_length=200)
 
-@utils.add_admin
+@utils.addAdmin
 class UserProfile(models.Model):
     user        = models.OneToOneField(User) 
     realname    = models.CharField(max_length=200, db_index=True)
@@ -109,7 +109,7 @@ class UserProfile(models.Model):
     major       = models.CharField(max_length=200, db_index=True)
     ps          = models.TextField()
 
-@utils.add_admin
+@utils.addAdmin
 class UserLoginLog(models.Model):
     ip          = models.CharField(max_length=50, db_index=True)
     time        = models.DateField(db_index=True)

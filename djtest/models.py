@@ -5,7 +5,7 @@ import utils
 
 # Create your models here.
 
-@utils.add_admin
+@utils.addAdmin
 class Poll(models.Model):
     question = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
@@ -19,7 +19,7 @@ class Poll(models.Model):
     was_published_recently.boolean = True
     was_published_recently.short_description = 'Published recently?'
 
-@utils.add_admin
+@utils.addAdmin
 class Choice(models.Model):
     poll = models.ForeignKey(Poll)
     choice = models.CharField(max_length=200)
