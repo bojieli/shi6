@@ -1,5 +1,5 @@
 # coding=utf8
-from page.models import Poll
+from djtest.models import Poll
 from django.template import loader, Context, RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import Http404

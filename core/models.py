@@ -2,7 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
+import utils
 
+@utils.add_admin
 class School(models.Model):
     name        = models.CharField(max_length=200, db_index=True)
     SCHOOL_TYPES = (
@@ -14,12 +16,12 @@ class School(models.Model):
     )
     type        = models.CharField(max_length=2, choices=SCHOOL_TYPES, db_index=True)
     city        = models.CharField(max_length=100, db_index=True)
-admin.site.register(School)
 
+@utils.add_admin
 class GroupCategory(models.Model):
     name        = models.CharField(max_length=200)
-admin.site.register(GroupCategory)
 
+@utils.add_admin
 class Group(models.Model):
     name        = models.CharField(max_length=200)
     school      = models.ForeignKey(School, null=True, blank=True)
@@ -30,13 +32,13 @@ class Group(models.Model):
     isdeleted   = models.BooleanField(default=False)
     delete_time = models.DateField()
     members     = models.ManyToManyField(User, through='Membership', related_name='group_joined')
-admin.site.register(Group)
 
+@utils.add_admin
 class GroupTag(models.Model):
     group       = models.ForeignKey(Group)
     tag         = models.CharField(max_length=200, db_index=True)
-admin.site.register(GroupTag)
 
+@utils.add_admin
 class File(models.Model):
     author      = models.ForeignKey(User)
     create_time = models.DateField(db_index=True)
@@ -46,21 +48,21 @@ class File(models.Model):
     local_filename = models.CharField(max_length=100)
     isdeleted   = models.BooleanField(default=False)
     delete_time = models.DateField()
-admin.site.register(File)
 
+@utils.add_admin
 class FileList(models.Model):
     pass
-admin.site.register(FileList)
 
+@utils.add_admin
 class Image(models.Model):
     original_image = models.OneToOneField(File)
-admin.site.register(Image)
 
+@utils.add_admin
 class Thumb(models.Model):
     image = models.ForeignKey(Image)
     file  = models.OneToOneField(File)
-admin.site.register(Thumb)
 
+@utils.add_admin
 class GroupProfile(models.Model):
     group       = models.OneToOneField(Group)
     name_en     = models.CharField(max_length=200)
@@ -70,6 +72,7 @@ class GroupProfile(models.Model):
     summary     = models.TextField()
     description = models.TextField()
 
+@utils.add_admin
 class Membership(models.Model):
     group       = models.ForeignKey(Group)
     user        = models.ForeignKey(User)
@@ -81,8 +84,8 @@ class Membership(models.Model):
     )
     privilege   = models.IntegerField(choices=PRIVILEGE_CHOICES, db_index=True)
     title       = models.CharField(max_length=200)
-admin.site.register(Membership)
 
+@utils.add_admin
 class UserProfile(models.Model):
     user        = models.OneToOneField(User) 
     realname    = models.CharField(max_length=200, db_index=True)
@@ -105,8 +108,8 @@ class UserProfile(models.Model):
     dept        = models.CharField(max_length=200, db_index=True)
     major       = models.CharField(max_length=200, db_index=True)
     ps          = models.TextField()
-admin.site.register(UserProfile)
 
+@utils.add_admin
 class UserLoginLog(models.Model):
     ip          = models.CharField(max_length=50, db_index=True)
     time        = models.DateField(db_index=True)
@@ -123,7 +126,6 @@ class UserLoginLog(models.Model):
     method      = models.CharField(max_length=2, choices=LOGIN_METHODS)
     user        = models.ForeignKey(User, null=True, blank=True)
     result      = models.BooleanField()
-admin.site.register(UserLoginLog)
 
-admin.site.register(User)
+
 

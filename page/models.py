@@ -1,8 +1,11 @@
 # coding=utf8
 from django.db import models
-from django.contrib.auth.models import User, FileList
+from django.contrib.auth.models import User
+from core.models import FileList
 from django.contrib import admin
+import utils
 
+@utils.add_admin
 class Article(models.Model):
     author      = models.ForeignKey(User)
     create_time = models.DateField(db_index=True)
@@ -13,8 +16,8 @@ class Article(models.Model):
     isdeleted   = models.BooleanField(default=False)
     delete_time = models.DateField()
     filelist    = models.OneToOneField(FileList, null=True, blank=True)
-admin.site.register(Article)
 
+@utils.add_admin
 class Comment(models.Model):
     article     = models.ForeignKey(Article)
     parent      = models.ForeignKey('self', null=True, blank=True)
@@ -23,4 +26,3 @@ class Comment(models.Model):
     text        = models.TextField()
     isdeleted   = models.BooleanField(default=False)
     delete_time = models.DateField()
-admin.site.register(Comment)

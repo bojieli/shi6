@@ -1,7 +1,11 @@
+# coding=utf-8
 from django.db import models
+from django.contrib import admin
+import utils
 
 # Create your models here.
 
+@utils.add_admin
 class Poll(models.Model):
     question = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
@@ -15,6 +19,7 @@ class Poll(models.Model):
     was_published_recently.boolean = True
     was_published_recently.short_description = 'Published recently?'
 
+@utils.add_admin
 class Choice(models.Model):
     poll = models.ForeignKey(Poll)
     choice = models.CharField(max_length=200)
@@ -27,14 +32,3 @@ class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 1
 
-class PollAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Title', {'fields': ['question']}),
-        (u'日期', {'fields': ['pub_date']}),
-    ]
-    inlines = [ChoiceInline]
-    list_filter = ['pub_date']
-    search_fields = ['question']
-    date_hierarchy = 'pub_date'
-
-admin.site.register(Poll, PollAdmin)

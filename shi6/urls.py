@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^/?$', 'page.views.index'),
     url(r'^page/', include('page.urls')),
+    url(r'^djtest/', include('djtest.urls')),
 )
