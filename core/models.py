@@ -24,11 +24,12 @@ class Group(models.Model):
     name        = models.CharField(max_length=200)
     school      = models.ForeignKey(School, null=True, blank=True)
     category    = models.ForeignKey(GroupCategory)
-    creator     = models.ForeignKey(User)
+    creator     = models.ForeignKey(User, related_name='group_created')
     create_time = models.DateField(db_index=True)
     total_rate  = models.IntegerField(default=0, db_index=True)
     isdeleted   = models.BooleanField(default=False)
     delete_time = models.DateField()
+    members     = models.ManyToManyField(User, through='Membership', related_name='group_joined')
 admin.site.register(Group)
 
 class GroupTag(models.Model):
@@ -46,6 +47,10 @@ class File(models.Model):
     isdeleted   = models.BooleanField(default=False)
     delete_time = models.DateField()
 admin.site.register(File)
+
+class FileList(models.Model):
+    pass
+admin.site.register(FileList)
 
 class Image(models.Model):
     original_image = models.OneToOneField(File)
@@ -65,7 +70,7 @@ class GroupProfile(models.Model):
     summary     = models.TextField()
     description = models.TextField()
 
-class GroupTitle(models.Model):
+class Membership(models.Model):
     group       = models.ForeignKey(Group)
     user        = models.ForeignKey(User)
     PRIVILEGE_CHOICES = (
@@ -76,7 +81,7 @@ class GroupTitle(models.Model):
     )
     privilege   = models.IntegerField(choices=PRIVILEGE_CHOICES, db_index=True)
     title       = models.CharField(max_length=200)
-admin.site.register(GroupTitle)
+admin.site.register(Membership)
 
 class UserProfile(models.Model):
     user        = models.OneToOneField(User) 
